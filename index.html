@@ -12,6 +12,20 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+
+    <!-- Fixed Urgency Banner -->
+    <div class="top-banner" id="topBanner">
+        <div class="banner-content">
+            <div class="banner-text">
+                <strong>ATENÇÃO: ÚLTIMAS VAGAS DISPONÍVEIS</strong>
+                <span class="banner-sub">⚠ Essa condição pode sair do ar a qualquer momento —</span>
+            </div>
+            <div class="banner-timer">
+                Oferta acaba em: <span id="countdown" class="countdown-badge">05:00</span>
+            </div>
+        </div>
+    </div>
+
     
     <!-- Background Decor -->
     <div class="bg-decorations">
@@ -155,6 +169,40 @@
             <p class="footer-sub">O material será enviado imediatamente para o seu e-mail após a confirmação do pagamento.</p>
         </div>
     </footer>
+
+    <!-- Countdown Timer Script -->
+    <script>
+        (function() {
+            const DURATION = 5 * 60; // 5 minutes in seconds
+            const KEY = 'festajunina_timer_end';
+            let endTime = localStorage.getItem(KEY);
+            
+            if (!endTime || Date.now() > parseInt(endTime)) {
+                endTime = Date.now() + DURATION * 1000;
+                localStorage.setItem(KEY, endTime);
+            } else {
+                endTime = parseInt(endTime);
+            }
+
+            const countdownEl = document.getElementById('countdown');
+
+            function update() {
+                const remaining = Math.max(0, Math.floor((endTime - Date.now()) / 1000));
+                const min = String(Math.floor(remaining / 60)).padStart(2, '0');
+                const sec = String(remaining % 60).padStart(2, '0');
+                countdownEl.textContent = min + ':' + sec;
+
+                if (remaining <= 0) {
+                    countdownEl.textContent = '00:00';
+                    // Reset timer for next visit
+                    localStorage.removeItem(KEY);
+                }
+            }
+
+            update();
+            setInterval(update, 1000);
+        })();
+    </script>
 
 </body>
 </html>
