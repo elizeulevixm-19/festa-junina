@@ -177,13 +177,17 @@
     <!-- Countdown Timer Script -->
     <script>
         (function() {
-            const DURATION = 5 * 60; // 5 minutes in seconds
+            const DURATION = 8 * 60; // 8 minutes in seconds
             const KEY = 'festajunina_timer_end';
             let endTime = localStorage.getItem(KEY);
             
-            if (!endTime || Date.now() > parseInt(endTime)) {
+            function startNewTimer() {
                 endTime = Date.now() + DURATION * 1000;
                 localStorage.setItem(KEY, endTime);
+            }
+
+            if (!endTime || Date.now() > parseInt(endTime)) {
+                startNewTimer();
             } else {
                 endTime = parseInt(endTime);
             }
@@ -191,16 +195,20 @@
             const countdownEl = document.getElementById('countdown');
 
             function update() {
-                const remaining = Math.max(0, Math.floor((endTime - Date.now()) / 1000));
+                let remaining = Math.max(0, Math.floor((endTime - Date.now()) / 1000));
+                
+                if (remaining <= 0) {
+                    startNewTimer();
+                    remaining = DURATION;
+                }
+
                 const min = String(Math.floor(remaining / 60)).padStart(2, '0');
                 const sec = String(remaining % 60).padStart(2, '0');
                 countdownEl.textContent = min + ':' + sec;
 
-                if (remaining <= 0) {
-                    countdownEl.textContent = '00:00';
-                    // Reset timer for next visit
-                    localStorage.removeItem(KEY);
-                }
+                // Dynamic Pulse Speed: from 2s (full time) to 0.4s (last seconds)
+                const speed = 0.4 + (remaining / DURATION) * 1.6;
+                countdownEl.style.setProperty('--pulse-speed', `${speed.toFixed(2)}s`);
             }
 
             update();
