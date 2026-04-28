@@ -168,6 +168,11 @@ a {
     color: transparent;
 }
 
+.text-green {
+    color: var(--accent-green) !important;
+    -webkit-text-fill-color: var(--accent-green) !important;
+}
+
 .text-highlight {
     background: var(--accent-yellow);
     padding: 2px 8px;
