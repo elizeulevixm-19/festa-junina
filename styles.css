@@ -67,6 +67,7 @@ a {
     animation: gradientShift 15s ease infinite;
     padding: 8px 0;
     box-shadow: 0 4px 25px rgba(255, 58, 58, 0.4);
+    min-height: 48px;
 }
 
 @keyframes gradientShift {
@@ -144,6 +145,8 @@ a {
     letter-spacing: 0.05em;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    min-width: 160px;
+    min-height: 36px;
 }
 
 .banner-btn:hover {
